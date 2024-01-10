@@ -18,17 +18,17 @@ export default function Course() {
     const[content,setContent]=useState('')
     const[author,setAuthor]=useState('')
     const[tags,setTags]=useState('')
-    const[Courses,setCourses]=useState([])
+    const[courses,setCourses]=useState([])
     const classes = useStyles();
 
     const handleClick=(e)=>{
         e.preventDefault()
-        const Course={name,content,author,tags}
-        console.log(Course)
-        fetch("http://localhost:3000/api/v1/course/add",{
+        const course={name,content,author,tags}
+        console.log(course)
+        fetch("http://localhost:8080/api/v1/course/add",{
             method:"POST",
             headers:{"Content-Type":"application/json"},
-            body:JSON.stringify(Course)
+            body:JSON.stringify(course)
 
         }).then(()=>{
             console.log("New Course added")
@@ -36,7 +36,7 @@ export default function Course() {
     }
 
     useEffect(()=>{
-        fetch("http://localhost:3000/api/v1/course/get/all")
+        fetch("http://localhost:8080/api/v1/course/get/all")
             .then(res=>res.json())
             .then((result)=>{
                     setCourses(result);
@@ -77,13 +77,13 @@ export default function Course() {
 
             <Paper elevation={3} style={paperStyle}>
 
-                {Courses.map(Course=>(
-                    <Paper elevation={6} style={{margin: "10px", padding: "15px", textAlign: "left"}} key={Course.id}>
-                        Id:{Course.id}<br/>
-                        Name:{Course.name}<br/>
-                        Content:{Course.content}<br/>
-                        Author:{Course.author}<br/>
-                        Tags:{Course.tags}<br/>
+                {courses.map(course=>(
+                    <Paper elevation={6} style={{margin: "10px", padding: "15px", textAlign: "left"}} key={course.id}>
+                        Id:{course.id}<br/>
+                        Name:{course.name}<br/>
+                        Content:{course.content}<br/>
+                        Author:{course.author}<br/>
+                        Tags:{course.tags}<br/>
                     </Paper>
                 ))
                 }
