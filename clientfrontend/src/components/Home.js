@@ -21,7 +21,6 @@ export default function Course() {
     const[tags,setTags]=useState('')
     const[courses,setCourses]=useState([])
     const classes = useStyles();
-    // let navigate = useNavigate();
 
     const handleClick=(e)=>{
         e.preventDefault()
@@ -49,34 +48,6 @@ export default function Course() {
 
         <Container>
 
-            <Paper elevation={3} style={paperStyle}>
-                <h1 style={{color:"blue"}}><u>Add Course</u></h1>
-
-                <form className={classes.root} noValidate autoComplete="off">
-
-                    <TextField id="outlined-basic" label="Course Name" variant="outlined" fullWidth
-                               value={name}
-                               onChange={(e)=>setName(e.target.value)}
-                    />
-                    <TextField id="outlined-basic" label="Course Content" variant="outlined" fullWidth
-                               value={content}
-                               onChange={(e)=>setContent(e.target.value)}
-                    />
-                    <TextField id="outlined-basic" label="Course Author" variant="outlined" fullWidth
-                               value={author}
-                               onChange={(e)=>setAuthor(e.target.value)}
-                    />
-                    <TextField id="outlined-basic" label="Course Tags" variant="outlined" fullWidth
-                               value={tags}
-                               onChange={(e)=>setTags(e.target.value)}
-                    />
-                    <Button variant="contained" color="secondary" onClick={handleClick}>
-                        Submit
-                    </Button>
-
-                </form>
-
-            </Paper>
             <h1>Courses</h1>
             <Link variant="contained" color="danger" to="/AddCourse">
                 Add new Course
@@ -90,9 +61,9 @@ export default function Course() {
                         Content:{course.content}<br/>
                         Author:{course.author}<br/>
                         Tags:{course.tags}<br/>
-                        <Button variant="contained" color="danger" >
+                        <Link className="btn btn-outline-primary mx-2" to={`/editCourse/${Course.id}`}>
                             Edit
-                        </Button>
+                        </Link>
                         <Button variant="contained" color="secondary" >
                             Delete
                         </Button>

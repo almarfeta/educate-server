@@ -21,7 +21,7 @@ export default function Course() {
     const[tags,setTags]=useState('')
     const[courses,setCourses]=useState([])
     const classes = useStyles();
-    // let navigate = useNavigate();
+    let navigate = useNavigate();
 
     const handleClick=(e)=>{
         e.preventDefault()
@@ -35,6 +35,7 @@ export default function Course() {
         }).then(()=>{
             console.log("New Course added")
         })
+        navigate("/")
     }
 
     useEffect(()=>{
@@ -48,7 +49,6 @@ export default function Course() {
     return (
 
         <Container>
-
             <Paper elevation={3} style={paperStyle}>
                 <h1 style={{color:"blue"}}><u>Add Course</u></h1>
 
@@ -70,39 +70,16 @@ export default function Course() {
                                value={tags}
                                onChange={(e)=>setTags(e.target.value)}
                     />
-                    <Button variant="contained" color="secondary" onClick={handleClick}>
+                    <Button variant="contained" color="danger" onClick={handleClick}>
                         Submit
                     </Button>
-
+                    <Link variant="contained" color="secondary" to="/">
+                        Cancel
+                    </Link>
                 </form>
 
             </Paper>
-            <h1>Courses</h1>
-            <Link variant="contained" color="danger" to="/AddCourse">
-                Add new Course
-            </Link>
-            <Paper elevation={3} style={paperStyle}>
 
-                {courses.map(course=>(
-                    <Paper elevation={6} style={{margin: "10px", padding: "15px", textAlign: "left"}} key={course.id}>
-                        Id:{course.id}<br/>
-                        Name:{course.name}<br/>
-                        Content:{course.content}<br/>
-                        Author:{course.author}<br/>
-                        Tags:{course.tags}<br/>
-                        <Button variant="contained" color="danger" >
-                            Edit
-                        </Button>
-                        <Button variant="contained" color="secondary" >
-                            Delete
-                        </Button>
-                    </Paper>
-
-                ))
-                }
-
-
-            </Paper>
 
 
 
