@@ -27,9 +27,9 @@ export default function Home(){
                     <tr>
                         <th scope="col">S.N</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Content</th>
                         <th scope="col">Author</th>
                         <th scope="col">Tags</th>
+                        <th scope="col">Content</th>
                         <th scope="col">Action</th>
                     </tr>
                     </thead>
@@ -40,9 +40,16 @@ export default function Home(){
                                 {index + 1}
                             </th>
                             <td>{course.name}</td>
-                            <td>{course.content}</td>
                             <td>{course.author}</td>
                             <td>{course.tags}</td>
+                            <td>
+                                <Link
+                                    className="btn btn-primary mx-2"
+                                    to={`data:application/pdf;base64,${course.content}`}
+                                >
+                                    Download
+                                </Link>
+                            </td>
                             <td>
                                 <Link
                                     className="btn btn-warning mx-2"
