@@ -46,6 +46,7 @@ export default function Home(){
                                 <Link
                                     className="btn btn-primary mx-2"
                                     to={`data:application/pdf;base64,${course.content}`}
+                                    download={course.name}
                                 >
                                     Download
                                 </Link>

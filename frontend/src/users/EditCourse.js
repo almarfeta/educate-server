@@ -8,16 +8,20 @@ export default function EditCourse() {
     const { id } = useParams();
 
     const [course, setCourse] = useState({
-        name: "",
-        content: "",
-        author: "",
-        tags: "",
+        name: '',
+        author: '',
+        tags: '',
+        content: null,
     });
 
-    const {name, content, author, tags  } = course;
+    const {name, author, tags, content  } = course;
 
     const onInputChange = (e) => {
-        setCourse({ ...course, [e.target.name]: e.target.value });
+        if (e.target.name === 'content') {
+            setCourse({ ...course, [e.target.name]: e.target.files[0] });
+        } else {
+            setCourse({ ...course, [e.target.name]: e.target.value });
+        }
     };
 
     useEffect(() => {
@@ -26,8 +30,24 @@ export default function EditCourse() {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        await axios.put(`http://localhost:8080/api/v1/course/update`, course);
-        navigate("/");
+
+        const formData = new FormData();
+        formData.append('id', id);
+        formData.append('name', name);
+        formData.append('author', author);
+        formData.append('tags', tags);
+        formData.append('content', content);
+
+        try {
+            await axios.put('http://localhost:8080/api/v1/course/update', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            navigate('/');
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
     const loadCourse = async () => {
@@ -55,19 +75,7 @@ export default function EditCourse() {
                                 onChange={(e) => onInputChange(e)}
                             />
                         </div>
-                        <div className="mb-3">
-                            <label htmlFor="Content" className="form-label">
-                                Content
-                            </label>
-                            <input
-                                type={"text"}
-                                className="form-control"
-                                placeholder="Enter Content"
-                                name="content"
-                                value={content}
-                                onChange={(e) => onInputChange(e)}
-                            />
-                        </div>
+
                         <div className="mb-3">
                             <label htmlFor="Author" className="form-label">
                                 Author
@@ -91,6 +99,17 @@ export default function EditCourse() {
                                 placeholder="Enter Tags"
                                 name="tags"
                                 value={tags}
+                                onChange={(e) => onInputChange(e)}
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="Content" className="form-label">
+                                Content
+                            </label>
+                            <input
+                                type={"file"}
+                                className="form-control"
+                                name="content"
                                 onChange={(e) => onInputChange(e)}
                             />
                         </div>

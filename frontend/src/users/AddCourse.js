@@ -1,27 +1,46 @@
-import axios from "axios";
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function AddCourse() {
     let navigate = useNavigate();
 
     const [course, setCourse] = useState({
-        name: "",
-        content: "",
-        author: "",
-        tags: "",
+        name: '',
+        author: '',
+        tags: '',
+        content: null, // For file upload
     });
 
-    const { name, content, author, tags  } = course;
+    const { name, author, tags, content } = course;
 
     const onInputChange = (e) => {
-        setCourse({ ...course, [e.target.name]: e.target.value });
+        if (e.target.name === 'content') {
+            setCourse({ ...course, [e.target.name]: e.target.files[0] });
+        } else {
+            setCourse({ ...course, [e.target.name]: e.target.value });
+        }
     };
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        await axios.post("http://localhost:8080/api/v1/course/add", course);
-        navigate("/");
+
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('author', author);
+        formData.append('tags', tags);
+        formData.append('content', content);
+
+        try {
+            await axios.post('http://localhost:8080/api/v1/course/add', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            navigate('/');
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
     return (
@@ -36,7 +55,7 @@ export default function AddCourse() {
                                 Name
                             </label>
                             <input
-                                type={"text"}
+                                type="text"
                                 className="form-control"
                                 placeholder="Enter your name"
                                 name="name"
@@ -45,24 +64,11 @@ export default function AddCourse() {
                             />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="Content" className="form-label">
-                                Content
-                            </label>
-                            <input
-                                type={"text"}
-                                className="form-control"
-                                placeholder="Enter the content"
-                                name="content"
-                                value={content}
-                                onChange={(e) => onInputChange(e)}
-                            />
-                        </div>
-                        <div className="mb-3">
                             <label htmlFor="Author" className="form-label">
                                 Author
                             </label>
                             <input
-                                type={"text"}
+                                type="text"
                                 className="form-control"
                                 placeholder="Enter author"
                                 name="author"
@@ -75,7 +81,7 @@ export default function AddCourse() {
                                 Tags
                             </label>
                             <input
-                                type={"text"}
+                                type="text"
                                 className="form-control"
                                 placeholder="Enter tags"
                                 name="tags"
@@ -83,7 +89,18 @@ export default function AddCourse() {
                                 onChange={(e) => onInputChange(e)}
                             />
                         </div>
-                        <button type="submit" className="btn btn-outline-primary">
+                        <div className="mb-3">
+                            <label htmlFor="Content" className="form-label">
+                                Content (PDF File)
+                            </label>
+                            <input
+                                type="file"
+                                className="form-control"
+                                name="content"
+                                onChange={(e) => onInputChange(e)}
+                            />
+                        </div>
+                        <button type="submit" className="btn btn-outline-primary" >
                             Submit
                         </button>
                         <Link className="btn btn-outline-danger mx-2" to="/">
