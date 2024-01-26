@@ -22,11 +22,11 @@ public class CourseRequest {
     @NotBlank(groups = OnCreate.class)
     private String name;
 
-    @NotNull(groups = OnCreate.class)
-    private MultipartFile content;
-
     @NotBlank(groups = OnCreate.class)
     private String author;
 
     private String tags;
+
+    @NotNull(groups = OnCreate.class)
+    private MultipartFile content;
 }

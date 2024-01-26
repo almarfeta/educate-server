@@ -69,7 +69,7 @@ export default function EditCourse() {
                             <input
                                 type={"text"}
                                 className="form-control"
-                                placeholder="Enter your name"
+                                placeholder="Enter course name"
                                 name="name"
                                 value={name}
                                 onChange={(e) => onInputChange(e)}
