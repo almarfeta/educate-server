@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import axios from "axios";
 import { Link, useParams } from 'react-router-dom';
+
 export default function Home(){
     const [courses, setCourses] = useState([]);
     const { id } = useParams();
@@ -21,6 +22,16 @@ export default function Home(){
 
     return (
         <div className="container">
+            <div className="flex flex-col items-center justify-center ">
+                <div className="flex flex-row gap-2 py-2">
+                </div>
+                <img className="container-fluid img-fluid shadow rounded"
+                     src="https://www.brightview.com/sites/default/files/styles/optimized/public/2023-04/website%20hero%20content%20article%201.png.jpg?itok=5XnvfpWU"
+                     alt="Main banner"
+                     width="100px"/>
+            </div>
+
+
             <div className="py-4">
                 <table className="table border shadow">
                     <thead>
